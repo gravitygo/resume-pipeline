@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "generate": "npm run build && node dist/cli.js",
+    "generate": "npm run build && node dist/cli.js generate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

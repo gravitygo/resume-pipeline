@@ -1,16 +1,17 @@
-import OpenAI, { AzureOpenAI } from 'openai';
-import { ResumeInput } from './types';
-import { Config } from './config';
+import OpenAI, { AzureOpenAI } from "openai";
+import { ResumeInput } from "./types";
+import { Config } from "./config";
 
 /**
  * Creates an AI client instance based on the configured provider
  */
 export function createAIClient(config: Config): OpenAI {
-  if (config.aiProvider === 'azure' && config.azureConfig) {
-    return new AzureOpenAI({
-      endpoint: config.azureConfig.endpoint,
-      apiKey: config.azureConfig.apiKey,
-      apiVersion: config.azureConfig.apiVersion,
+  if (config.aiProvider === "azure" && config.azureConfig) {
+    const { endpoint, apiKey, deploymentName } = config.azureConfig;
+
+    return new OpenAI({
+      apiKey: apiKey,
+      baseURL: endpoint,
     });
   }
 
@@ -22,7 +23,7 @@ export function createAIClient(config: Config): OpenAI {
  * Gets the model/deployment name based on the configured provider
  */
 export function getModelName(config: Config): string {
-  if (config.aiProvider === 'azure' && config.azureConfig) {
+  if (config.aiProvider === "azure" && config.azureConfig) {
     return config.azureConfig.deploymentName;
   }
   return config.openaiModel;
@@ -128,11 +129,12 @@ Generate ONLY the Markdown content, no explanations or additional text.`;
 function formatContact(input: ResumeInput): string {
   const parts: string[] = [];
 
-  if (input.contact?.location) parts.push(`Location: ${input.contact.location}`);
+  if (input.contact?.location)
+    parts.push(`Location: ${input.contact.location}`);
   if (input.contact?.email) parts.push(`Email: ${input.contact.email}`);
   if (input.contact?.phone) parts.push(`Phone: ${input.contact.phone}`);
 
-  return parts.length > 0 ? `CONTACT:\n${parts.join('\n')}` : '';
+  return parts.length > 0 ? `CONTACT:\n${parts.join("\n")}` : "";
 }
 
 /**
@@ -146,10 +148,12 @@ function formatLinks(input: ResumeInput): string {
   if (input.links?.portfolio) parts.push(`Portfolio: ${input.links.portfolio}`);
   if (input.links?.website) parts.push(`Website: ${input.links.website}`);
   if (input.links?.other) {
-    input.links.other.forEach(link => parts.push(`${link.label}: ${link.url}`));
+    input.links.other.forEach((link) =>
+      parts.push(`${link.label}: ${link.url}`),
+    );
   }
 
-  return parts.length > 0 ? `PROFESSIONAL LINKS:\n${parts.join('\n')}` : '';
+  return parts.length > 0 ? `PROFESSIONAL LINKS:\n${parts.join("\n")}` : "";
 }
 
 /**
@@ -161,63 +165,63 @@ function formatExperiences(input: ResumeInput): string {
       (exp, i) => `
 ${i + 1}. Company: ${exp.company}
    Job Title: ${exp.job}
-   ${exp.location ? `Location: ${exp.location}` : ''}
-   ${exp.start_date ? `Start Date: ${exp.start_date}` : ''}
-   ${exp.end_date ? `End Date: ${exp.end_date}` : ''}
-   Description: ${exp.job_description}`
+   ${exp.location ? `Location: ${exp.location}` : ""}
+   ${exp.start_date ? `Start Date: ${exp.start_date}` : ""}
+   ${exp.end_date ? `End Date: ${exp.end_date}` : ""}
+   Description: ${exp.job_description}`,
     )
-    .join('\n')}`;
+    .join("\n")}`;
 }
 
 /**
  * Formats education for the prompt
  */
 function formatEducation(input: ResumeInput): string {
-  if (!input.education?.length) return '';
+  if (!input.education?.length) return "";
 
   return `EDUCATION:\n${input.education
     .map(
       (edu, i) => `
 ${i + 1}. Institution: ${edu.institution}
    Degree: ${edu.degree}
-   ${edu.field ? `Field of Study: ${edu.field}` : ''}
-   ${edu.location ? `Location: ${edu.location}` : ''}
-   ${edu.start_date ? `Start Date: ${edu.start_date}` : ''}
-   ${edu.end_date ? `End Date: ${edu.end_date}` : ''}
-   ${edu.gpa ? `GPA: ${edu.gpa}` : ''}
-   ${edu.honors?.length ? `Honors: ${edu.honors.join(', ')}` : ''}
-   ${edu.relevant_courses?.length ? `Relevant Courses: ${edu.relevant_courses.join(', ')}` : ''}`
+   ${edu.field ? `Field of Study: ${edu.field}` : ""}
+   ${edu.location ? `Location: ${edu.location}` : ""}
+   ${edu.start_date ? `Start Date: ${edu.start_date}` : ""}
+   ${edu.end_date ? `End Date: ${edu.end_date}` : ""}
+   ${edu.gpa ? `GPA: ${edu.gpa}` : ""}
+   ${edu.honors?.length ? `Honors: ${edu.honors.join(", ")}` : ""}
+   ${edu.relevant_courses?.length ? `Relevant Courses: ${edu.relevant_courses.join(", ")}` : ""}`,
     )
-    .join('\n')}`;
+    .join("\n")}`;
 }
 
 /**
  * Formats projects for the prompt
  */
 function formatProjects(input: ResumeInput): string {
-  if (!input.projects?.length) return '';
+  if (!input.projects?.length) return "";
 
   return `PROJECTS:\n${input.projects
     .map(
       (proj, i) => `
 ${i + 1}. Name: ${proj.name}
    Description: ${proj.description}
-   ${proj.technologies?.length ? `Technologies: ${proj.technologies.join(', ')}` : ''}
-   ${proj.url ? `URL: ${proj.url}` : ''}
-   ${proj.start_date ? `Start Date: ${proj.start_date}` : ''}
-   ${proj.end_date ? `End Date: ${proj.end_date}` : ''}`
+   ${proj.technologies?.length ? `Technologies: ${proj.technologies.join(", ")}` : ""}
+   ${proj.url ? `URL: ${proj.url}` : ""}
+   ${proj.start_date ? `Start Date: ${proj.start_date}` : ""}
+   ${proj.end_date ? `End Date: ${proj.end_date}` : ""}`,
     )
-    .join('\n')}`;
+    .join("\n")}`;
 }
 
 /**
  * Formats certifications for the prompt
  */
 function formatCertifications(input: ResumeInput): string {
-  if (!input.certifications?.length) return '';
+  if (!input.certifications?.length) return "";
 
   const certs = input.certifications.map((cert) => {
-    if (typeof cert === 'string') {
+    if (typeof cert === "string") {
       return `- ${cert}`;
     }
     const parts = [cert.name];
@@ -225,52 +229,56 @@ function formatCertifications(input: ResumeInput): string {
     if (cert.date) parts.push(`Date: ${cert.date}`);
     if (cert.expiry_date) parts.push(`Expires: ${cert.expiry_date}`);
     if (cert.credential_id) parts.push(`Credential ID: ${cert.credential_id}`);
-    return `- ${parts.join(' | ')}`;
+    return `- ${parts.join(" | ")}`;
   });
 
-  return `CERTIFICATIONS:\n${certs.join('\n')}`;
+  return `CERTIFICATIONS:\n${certs.join("\n")}`;
 }
 
 /**
  * Formats languages for the prompt
  */
 function formatLanguages(input: ResumeInput): string {
-  if (!input.languages?.length) return '';
+  if (!input.languages?.length) return "";
 
   return `LANGUAGES:\n${input.languages
-    .map((lang) => `- ${lang.language}${lang.proficiency ? ` (${lang.proficiency})` : ''}`)
-    .join('\n')}`;
+    .map(
+      (lang) =>
+        `- ${lang.language}${lang.proficiency ? ` (${lang.proficiency})` : ""}`,
+    )
+    .join("\n")}`;
 }
 
 /**
  * Formats volunteer experience for the prompt
  */
 function formatVolunteer(input: ResumeInput): string {
-  if (!input.volunteer?.length) return '';
+  if (!input.volunteer?.length) return "";
 
   return `VOLUNTEER EXPERIENCE:\n${input.volunteer
     .map(
       (vol, i) => `
 ${i + 1}. Organization: ${vol.organization}
    Role: ${vol.role}
-   ${vol.description ? `Description: ${vol.description}` : ''}
-   ${vol.start_date ? `Start Date: ${vol.start_date}` : ''}
-   ${vol.end_date ? `End Date: ${vol.end_date}` : ''}`
+   ${vol.description ? `Description: ${vol.description}` : ""}
+   ${vol.start_date ? `Start Date: ${vol.start_date}` : ""}
+   ${vol.end_date ? `End Date: ${vol.end_date}` : ""}`,
     )
-    .join('\n')}`;
+    .join("\n")}`;
 }
 
 /**
  * Formats awards for the prompt
  */
 function formatAwards(input: ResumeInput): string {
-  if (!input.awards?.length) return '';
+  if (!input.awards?.length) return "";
 
   return `AWARDS:\n${input.awards
     .map(
-      (award) => `- ${award.title}${award.issuer ? ` — ${award.issuer}` : ''}${award.date ? ` (${award.date})` : ''}${award.description ? `: ${award.description}` : ''}`
+      (award) =>
+        `- ${award.title}${award.issuer ? ` — ${award.issuer}` : ""}${award.date ? ` (${award.date})` : ""}${award.description ? `: ${award.description}` : ""}`,
     )
-    .join('\n')}`;
+    .join("\n")}`;
 }
 
 /**
@@ -280,13 +288,15 @@ function buildUserPrompt(input: ResumeInput): string {
   const sections: string[] = [
     `Generate a professional resume for the following candidate:`,
     `NAME: ${input.name}`,
-    input.title ? `PROFESSIONAL TITLE: ${input.title}` : '',
+    input.title ? `PROFESSIONAL TITLE: ${input.title}` : "",
     formatContact(input),
     formatLinks(input),
-    input.summary ? `SUMMARY (use as provided):\n${input.summary}` : '',
+    input.summary ? `SUMMARY (use as provided):\n${input.summary}` : "",
     formatExperiences(input),
     formatEducation(input),
-    input.skills?.length ? `SKILLS:\n${input.skills.map((s) => `- ${s}`).join('\n')}` : '',
+    input.skills?.length
+      ? `SKILLS:\n${input.skills.map((s) => `- ${s}`).join("\n")}`
+      : "",
     formatProjects(input),
     formatCertifications(input),
     formatLanguages(input),
@@ -295,7 +305,7 @@ function buildUserPrompt(input: ResumeInput): string {
     `\nGenerate the resume in Markdown format following the structure rules provided. Only include sections that have data.`,
   ];
 
-  return sections.filter((s) => s.length > 0).join('\n\n');
+  return sections.filter((s) => s.length > 0).join("\n\n");
 }
 
 /**
@@ -305,7 +315,7 @@ export async function generateMarkdownResume(
   client: OpenAI,
   model: string,
   input: ResumeInput,
-  context: string
+  context: string,
 ): Promise<string> {
   const systemPrompt = buildSystemPrompt(context);
   const userPrompt = buildUserPrompt(input);
@@ -313,32 +323,32 @@ export async function generateMarkdownResume(
   const response = await client.chat.completions.create({
     model,
     messages: [
-      { role: 'system', content: systemPrompt },
-      { role: 'user', content: userPrompt },
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userPrompt },
     ],
-    temperature: 0.3, // Lower temperature for more consistent output
-    max_tokens: 3000,
+    // temperature: 0.3, // lower temperature for more consistent output
+    // max_tokens: 3000,
   });
 
   const content = response.choices[0]?.message?.content;
+  // const content = response.output_text;
 
   if (!content) {
-    throw new Error('No content received from OpenAI');
+    throw new Error("No content received from OpenAI");
   }
 
   // Clean up the response - remove markdown code blocks if present
   let markdown = content.trim();
-  if (markdown.startsWith('```markdown')) {
+  if (markdown.startsWith("```markdown")) {
     markdown = markdown.slice(11);
-  } else if (markdown.startsWith('```md')) {
+  } else if (markdown.startsWith("```md")) {
     markdown = markdown.slice(5);
-  } else if (markdown.startsWith('```')) {
+  } else if (markdown.startsWith("```")) {
     markdown = markdown.slice(3);
   }
-  if (markdown.endsWith('```')) {
+  if (markdown.endsWith("```")) {
     markdown = markdown.slice(0, -3);
   }
 
   return markdown.trim();
 }
-
