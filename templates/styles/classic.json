@@ -1,0 +1,47 @@
+{
+  "body": {
+    "fontFamily": "'Times New Roman', Times, serif",
+    "fontSize": "11pt",
+    "lineHeight": "1.4",
+    "color": "#000000"
+  },
+  "h1": {
+    "fontSize": "20pt",
+    "fontWeight": "700",
+    "color": "#000000",
+    "marginBottom": "4px",
+    "textAlign": "center"
+  },
+  "h2": {
+    "fontSize": "14pt",
+    "fontWeight": "600",
+    "color": "#000000",
+    "borderBottom": "1px solid #000000",
+    "marginTop": "14px",
+    "marginBottom": "6px",
+    "paddingBottom": "2px"
+  },
+  "h3": {
+    "fontSize": "11pt",
+    "fontWeight": "600",
+    "color": "#000000",
+    "marginTop": "10px",
+    "marginBottom": "2px"
+  },
+  "p": {
+    "fontSize": "11pt",
+    "lineHeight": "1.4",
+    "marginBottom": "6px",
+    "color": "#000000"
+  },
+  "ul": {
+    "marginLeft": "16px",
+    "marginBottom": "6px"
+  },
+  "li": {
+    "marginBottom": "2px",
+    "fontSize": "10.5pt",
+    "lineHeight": "1.3"
+  }
+}
+

@@ -1,0 +1,58 @@
+name: Generate Resume
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/input.json'
+  workflow_dispatch:
+    inputs:
+      theme:
+        description: 'Theme to use (modern, classic, compact)'
+        required: false
+        default: 'modern'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Generate resume
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          THEME: ${{ github.event.inputs.theme || 'modern' }}
+        run: |
+          node dist/cli.js generate --theme $THEME
+
+      - name: Upload resume artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume-pdf
+          path: output/*.pdf
+          retention-days: 30
+
+      - name: Upload debug HTML (if exists)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: debug-html
+          path: output/*.html
+          if-no-files-found: ignore
+          retention-days: 7
+

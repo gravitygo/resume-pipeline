@@ -1,0 +1,49 @@
+{
+  "body": {
+    "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    "fontSize": "11pt",
+    "lineHeight": "1.5",
+    "color": "#2d3748"
+  },
+  "h1": {
+    "fontSize": "24pt",
+    "fontWeight": "700",
+    "color": "#1a202c",
+    "marginBottom": "8px",
+    "letterSpacing": "-0.5px"
+  },
+  "h2": {
+    "fontSize": "13pt",
+    "fontWeight": "600",
+    "color": "#2b6cb0",
+    "borderBottom": "2px solid #2b6cb0",
+    "marginTop": "16px",
+    "marginBottom": "8px",
+    "paddingBottom": "4px",
+    "textTransform": "uppercase",
+    "letterSpacing": "0.5px"
+  },
+  "h3": {
+    "fontSize": "11pt",
+    "fontWeight": "600",
+    "color": "#1a202c",
+    "marginTop": "12px",
+    "marginBottom": "4px"
+  },
+  "p": {
+    "fontSize": "11pt",
+    "lineHeight": "1.5",
+    "marginBottom": "8px",
+    "color": "#4a5568"
+  },
+  "ul": {
+    "marginLeft": "20px",
+    "marginBottom": "8px"
+  },
+  "li": {
+    "marginBottom": "4px",
+    "fontSize": "10.5pt",
+    "lineHeight": "1.4"
+  }
+}
+

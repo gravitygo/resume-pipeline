@@ -1,0 +1,95 @@
+{
+  "name": "John Doe",
+  "title": "Senior Software Engineer",
+  "contact": {
+    "email": "john.doe@email.com",
+    "phone": "+1 (555) 123-4567",
+    "location": "San Francisco, CA"
+  },
+  "links": {
+    "linkedin": "https://linkedin.com/in/johndoe",
+    "github": "https://github.com/johndoe",
+    "portfolio": "https://johndoe.dev"
+  },
+  "experiences": [
+    {
+      "company": "Tech Corp",
+      "job": "Senior Software Engineer",
+      "job_description": "Led development of microservices architecture handling 1M+ daily requests. Mentored team of 5 junior developers. Reduced API response time by 40% through optimization. Implemented CI/CD pipelines using GitHub Actions.",
+      "location": "San Francisco, CA",
+      "start_date": "Jan 2022",
+      "end_date": "Present"
+    },
+    {
+      "company": "StartupXYZ",
+      "job": "Full Stack Developer",
+      "job_description": "Built React-based dashboard for real-time analytics. Developed RESTful APIs using Node.js and Express. Integrated third-party payment systems. Improved test coverage from 45% to 85%.",
+      "location": "Remote",
+      "start_date": "Mar 2019",
+      "end_date": "Dec 2021"
+    },
+    {
+      "company": "Digital Agency",
+      "job": "Junior Developer",
+      "job_description": "Developed responsive web applications using HTML, CSS, and JavaScript. Collaborated with design team to implement UI/UX improvements. Maintained and debugged legacy PHP applications.",
+      "location": "New York, NY",
+      "start_date": "Jun 2017",
+      "end_date": "Feb 2019"
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of California, Berkeley",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "location": "Berkeley, CA",
+      "start_date": "Aug 2013",
+      "end_date": "May 2017",
+      "gpa": "3.8/4.0",
+      "honors": ["Magna Cum Laude", "Dean's List"]
+    }
+  ],
+  "skills": [
+    "TypeScript",
+    "React",
+    "Node.js",
+    "Python",
+    "PostgreSQL",
+    "MongoDB",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Git"
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "date": "Mar 2023"
+    },
+    {
+      "name": "Google Cloud Professional Developer",
+      "issuer": "Google Cloud",
+      "date": "Nov 2022"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Open Source Analytics Dashboard",
+      "description": "Built an open-source real-time analytics dashboard used by 500+ developers. Features include custom widgets, data visualization, and API integrations.",
+      "technologies": ["React", "D3.js", "Node.js", "PostgreSQL"],
+      "url": "https://github.com/johndoe/analytics-dashboard"
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "proficiency": "Native"
+    },
+    {
+      "language": "Spanish",
+      "proficiency": "Intermediate"
+    }
+  ]
+}
+
