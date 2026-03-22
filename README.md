@@ -25,7 +25,7 @@ This pipeline:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/resume-pipeline.git
+git clone https://github.com/gravitygo/resume-pipeline.git
 cd resume-pipeline
 
 # Install dependencies
@@ -218,16 +218,19 @@ resume-pipeline/
 ## Themes
 
 ### Modern (default)
+
 - Clean, contemporary design
 - Blue accent colors
 - Sans-serif typography
 
 ### Classic
+
 - Traditional, timeless look
 - Black and white color scheme
 - Serif typography
 
 ### Compact
+
 - Space-efficient layout
 - Smaller font sizes
 - Ideal for lengthy resumes
@@ -277,4 +280,3 @@ Input Data → Context Cache → LLM → Markdown → HTML → PDF
 ## License
 
 ISC
-
