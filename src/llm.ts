@@ -1,5 +1,5 @@
 import OpenAI, { AzureOpenAI } from "openai";
-import { ResumeInput } from "./types";
+import { ResumeInput, TargetJob } from "./types";
 import { Config } from "./config";
 
 /**
@@ -40,10 +40,35 @@ export function createOpenAIClient(apiKey: string): OpenAI {
 /**
  * Builds the system prompt for resume generation
  */
-function buildSystemPrompt(context: string): string {
+function buildSystemPrompt(context: string, targetJob?: TargetJob): string {
+  const targetJobInstructions = targetJob
+    ? `
+TARGET JOB TAILORING:
+You are generating a resume tailored for a specific job application:
+- Company: ${targetJob.company}
+- Position: ${targetJob.title}
+- Job Description: ${targetJob.description}
+
+TAILORING RULES:
+1. Emphasize experiences and skills that align with the target job requirements
+2. Reframe accomplishments to highlight relevant transferable skills
+3. If the candidate's experience differs from the target role, focus on transferable skills and adaptable qualities
+4. Prioritize skills mentioned in the job description
+5. Write a summary that positions the candidate as a strong fit for this specific role
+6. Use keywords from the job description where naturally applicable
+7. Do NOT fabricate or exaggerate experience - only reframe existing experience
+8. If experience is limited for the role, emphasize learning ability, relevant projects, and passion
+`
+    : `
+GENERAL RESUME:
+Generate a comprehensive resume showcasing the candidate's full experience and skills.
+Focus on their strongest achievements and most relevant qualifications.
+`;
+
   return `You are a professional resume writer. Your task is to generate a well-structured Markdown resume based on the provided user data.
 
 ${context}
+${targetJobInstructions}
 
 IMPORTANT RULES:
 1. Follow the exact Markdown structure specified below
@@ -316,8 +341,9 @@ export async function generateMarkdownResume(
   model: string,
   input: ResumeInput,
   context: string,
+  targetJob?: TargetJob,
 ): Promise<string> {
-  const systemPrompt = buildSystemPrompt(context);
+  const systemPrompt = buildSystemPrompt(context, targetJob);
   const userPrompt = buildUserPrompt(input);
 
   const response = await client.chat.completions.create({

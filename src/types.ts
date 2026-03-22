@@ -62,6 +62,15 @@ export const ProjectSchema = z.object({
 
 export type Project = z.infer<typeof ProjectSchema>;
 
+// Target job schema - represents a job the user is applying to
+export const TargetJobSchema = z.object({
+  company: z.string().min(1, 'Company name is required'),
+  title: z.string().min(1, 'Job title is required'),
+  description: z.string().min(1, 'Job description is required'),
+});
+
+export type TargetJob = z.infer<typeof TargetJobSchema>;
+
 // Certification schema with more details
 export const CertificationSchema = z.object({
   name: z.string().min(1, 'Certification name is required'),
@@ -106,6 +115,8 @@ export const ResumeInputSchema = z.object({
     date: z.string().optional(),
     description: z.string().optional(),
   })).optional(),
+  // Target jobs the user is applying to - generates tailored resume for each
+  targetJobs: z.array(TargetJobSchema).optional(),
 });
 
 export type ResumeInput = z.infer<typeof ResumeInputSchema>;

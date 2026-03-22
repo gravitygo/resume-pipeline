@@ -48,9 +48,16 @@ program
       });
 
       console.log('\n📄 Generated files:');
-      console.log(`   PDF: ${result.pdfPath}`);
+      result.results.forEach((r) => {
+        if (r.targetJob) {
+          console.log(`   📎 ${r.targetJob.company} - ${r.targetJob.title}:`);
+          console.log(`      PDF: ${r.pdfPath}`);
+        } else {
+          console.log(`   PDF: ${r.pdfPath}`);
+        }
+      });
       if (options.debug) {
-        console.log(`   HTML: ${path.join(config.outputDir, 'debug.html')}`);
+        console.log(`   HTML: ${path.join(config.outputDir, 'debug*.html')}`);
       }
     } catch (error) {
       console.error('❌ Error:', error instanceof Error ? error.message : error);

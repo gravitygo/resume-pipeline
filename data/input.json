@@ -90,6 +90,18 @@
       "language": "Spanish",
       "proficiency": "Intermediate"
     }
+  ],
+  "targetJobs": [
+    {
+      "company": "Google",
+      "title": "Senior Software Engineer",
+      "description": "We are looking for a Senior Software Engineer to join our Cloud Platform team. You will design and implement scalable distributed systems, mentor junior engineers, and drive technical decisions. Requirements: 5+ years of experience in software development, expertise in distributed systems, proficiency in Go or Java, experience with Kubernetes and cloud infrastructure."
+    },
+    {
+      "company": "Stripe",
+      "title": "Full Stack Engineer",
+      "description": "Join Stripe's Payments team to build the infrastructure that powers internet commerce. You'll work on high-throughput, low-latency systems processing billions of dollars. Requirements: Strong experience with TypeScript/JavaScript, React, Node.js, PostgreSQL, understanding of payment systems and financial APIs, experience with microservices architecture."
+    }
   ]
 }
 
